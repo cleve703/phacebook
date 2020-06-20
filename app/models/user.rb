@@ -4,6 +4,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  validates :name, length: { minimum: 3, maximum: 40}
+
   has_many :friendships, dependent: :destroy
   has_many :friends, through: :friendships
 
