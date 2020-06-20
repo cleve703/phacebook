@@ -1,6 +1,12 @@
 Rails.application.routes.draw do
   devise_scope :user do
-    root to: 'users/sessions#new'
+    unauthenticated :user do
+      root 'users/sessions#new', as: :unauthenticated_root
+    end
+
+    authenticated :user do
+      root 'static_pages#home', as: :authenticated_root
+    end
   end
 
   devise_for :users, controllers: {
