@@ -7,7 +7,16 @@ class User < ApplicationRecord
   has_many :friendships, dependent: :destroy
   has_many :friends, through: :friendships
 
-  def friend_request(user)
-    Friendship.create!(user: self, friend: user, confirmed: false)
+  def friend_request(target)
+    Friendship.create!(user: self, friend: target, confirmed: false)
   end
+
+  def initiated_unconfirmed_friend_requests(target=self)
+    Friendship.where(user: target, confirmed: false)
+  end
+
+  def received_unconfirmed_friend_requests(target=self)
+    Friendship.where(friend: target, confirmed: false)
+  end
+
 end
