@@ -6,19 +6,9 @@ class User < ApplicationRecord
 
   validates :name, length: { minimum: 3, maximum: 40}
 
-  has_many :friendships, dependent: :destroy
-  has_many :friends, through: :friendships
-
-  def friend_request(target)
-    Friendship.create!(user: self, friend: target, confirmed: false)
-  end
-
-  def initiated_unconfirmed_friend_requests(target=self)
-    Friendship.where(user: target, confirmed: false)
-  end
-
-  def received_unconfirmed_friend_requests(target=self)
-    Friendship.where(friend: target, confirmed: false)
-  end
+  has_many :invitations_sent, class_name: 'Friendship', foreign_key: 'inviter_id'
+  has_many :invitations_received, class_name: 'Friendship', foreign_key: 'invitee_id'
+  has_many :invitees, through: :invitations_sent
+  has_many :inviters, through: :invitations_received
 
 end
