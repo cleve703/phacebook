@@ -11,4 +11,18 @@ class User < ApplicationRecord
   has_many :invitees, through: :invitations_sent
   has_many :inviters, through: :invitations_received
 
+  def accepted_invitations
+    self.invitations_received.where(confirmed:true).each { |inv| inv.invitee_id } + 
+    self.invitations_sent.where(confirmed:true).each { |inv| inv.inviter_id }
+  end
+
+  def friends
+    friend_list = []
+    accepted_invitations.each do |inv|
+      friend_list.push(inv.invitee_id) unless inv.invitee_id == self.id
+      friend_list.push(inv.inviter_id) unless inv.inviter_id == self.id
+    end
+    User.where(id: friend_list)
+  end
+
 end
