@@ -1,5 +1,5 @@
 <ul>
 <% @users.each do |user| %>
-  <li><%= link_to user.name, "users/#{user.id}", method: "get" %></li>
+  <li><%= link_to user.name, "users/#{user.id}", method: "get" %> | <%= link_to "Send friend request", "/friend_requests/?id=#{user.id}", method: 'post' %></li>
 <% end %>
 </ul>
