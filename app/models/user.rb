@@ -6,31 +6,31 @@ class User < ApplicationRecord
 
   validates :name, length: { minimum: 3, maximum: 40}
 
-  has_many :invitations_sent, class_name: 'Friendship', foreign_key: 'inviter_id'
-  has_many :invitations_received, class_name: 'Friendship', foreign_key: 'invitee_id'
-  has_many :invitees, through: :invitations_sent
-  has_many :inviters, through: :invitations_received
+  has_many :friend_requests_sent, class_name: 'Friendship', foreign_key: 'friender_id'
+  has_many :friend_requests_received, class_name: 'Friendship', foreign_key: 'friended_id'
+  has_many :invitees, through: :friend_requests_sent
+  has_many :inviters, through: :friend_requests_received
   
   def make_friend_request(target, origin=self)
-    Friendship.create(inviter_id: origin.id, invitee_id: target.id)
+    Friendship.create(friender_id: origin.id, friended_id: target.id)
   end
 
-  def accepted_invitations
-    self.invitations_received.where(confirmed:true).each { |inv| inv.invitee_id } + 
-    self.invitations_sent.where(confirmed:true).each { |inv| inv.inviter_id }
+  def accepted_friend_requests
+    self.friend_requests_received.where(confirmed:true).each { |inv| inv.friended_id } + 
+    self.friend_requests_sent.where(confirmed:true).each { |inv| inv.friender_id }
   end
   
   def friends
     friend_list = []
-    accepted_invitations.each do |inv|
-      friend_list.push(inv.invitee_id) unless inv.invitee_id == self.id
-      friend_list.push(inv.inviter_id) unless inv.inviter_id == self.id
+    accepted_friend_requests.each do |inv|
+      friend_list.push(inv.friended_id) unless inv.friended_id == self.id
+      friend_list.push(inv.friender_id) unless inv.friender_id == self.id
     end
     User.where(id: friend_list)
   end
 
   def outstanding_friend_requests
-    self.invitations_received.where(confirmed:false)
+    self.friend_requests_received.where(confirmed:false)
   end
 
   def confirm_friend_request(id)
@@ -39,6 +39,5 @@ class User < ApplicationRecord
       friendship.update(confirmed: true)
     end
   end
-
 
 end

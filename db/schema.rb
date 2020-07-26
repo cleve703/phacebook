@@ -10,19 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_24_211039) do
+ActiveRecord::Schema.define(version: 2020_07_25_131435) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "friendships", force: :cascade do |t|
-    t.bigint "inviter_id", null: false
-    t.bigint "invitee_id", null: false
+    t.bigint "friender_id", null: false
+    t.bigint "friended_id", null: false
     t.boolean "confirmed", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["invitee_id"], name: "index_friendships_on_invitee_id"
-    t.index ["inviter_id"], name: "index_friendships_on_inviter_id"
+    t.index ["friended_id"], name: "index_friendships_on_friended_id"
+    t.index ["friender_id"], name: "index_friendships_on_friender_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -38,6 +38,6 @@ ActiveRecord::Schema.define(version: 2020_07_24_211039) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "friendships", "users", column: "invitee_id"
-  add_foreign_key "friendships", "users", column: "inviter_id"
+  add_foreign_key "friendships", "users", column: "friended_id"
+  add_foreign_key "friendships", "users", column: "friender_id"
 end
