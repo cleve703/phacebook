@@ -10,6 +10,7 @@ class User < ApplicationRecord
   has_many :friend_requests_received, class_name: 'Friendship', foreign_key: 'friended_id'
   has_many :invitees, through: :friend_requests_sent
   has_many :inviters, through: :friend_requests_received
+  has_many :posts, class_name: 'Post', foreign_key: 'author_id'
   
   def make_friend_request(target, origin=self)
     Friendship.create(friender_id: origin.id, friended_id: target.id)
