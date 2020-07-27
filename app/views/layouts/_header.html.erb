@@ -16,9 +16,20 @@
       <ul class="nav navbar-nav navbar-right collapse navbar-collapse"
           id="bs-example-navbar-collapse-1">
         <li><%= link_to "Home", '/' %></li>
-        <li><%= link_to "Help", '/' %></li>
         <% if !current_user.nil? %>
           <li><%= link_to "Users", '/users' %></li>
+          <li class="dropdown">
+            <a href="#" class="notification dropdown-toggle" data-toggle="dropdown">
+            <span>Notifications</span>
+            <span class="badge"><%= current_user.outstanding_friend_requests_received.count %></span>
+            </a>
+            <ul class="dropdown-menu">
+              <% current_user.outstanding_friend_requests_received.each do |ofr| %>
+              <% usr = User.find_by(id: ofr.friender_id) %>
+              <li><%= link_to usr.name, "users/#{usr.id}" %></li>
+              <% end %>
+            </ul>
+          </li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <%= current_user.name %> <b class="caret"></b>
