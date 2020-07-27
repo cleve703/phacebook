@@ -1,5 +1,16 @@
 <ul>
 <% @users.each do |user| %>
-  <li><%= link_to user.name, "users/#{user.id}", method: "get" %> | <%= link_to "Send friend request", "/friend_requests/?id=#{user.id}", method: 'post' %></li>
+  <li><%= link_to user.name, "users/#{user.id}", method: "get" %>
+  <% if user == current_user %>
+  <% elsif current_user.friends.include?(user) %>
+     | Confirmed Friend | <%= link_to "Unfriend", "/friendships/#{user.id}", method: "delete" %>
+  <% elsif current_user.user_in_ofrs?(user) %>
+  <% this_friendship = current_user.find_friendship_with(user.id)%>
+     | Request sent - awaiting response | <%= link_to "Cancel friend request", "/friendships/?id=#{this_friendship}", method: 'delete' %>
+  <% elsif current_user.user_in_ofrr?(user) %>
+     | Respond to friend request | <%= link_to "Confirm friend request", "/friendships/#{user.id}", method: 'patch'  %> | <%= link_to "Cancel friend request", "/friendships/?id=#{user.id}", method: 'delete' %>
+  <% elsif !user.friends.include?(current_user) && !current_user.friend_requests_sent.include?(user) %>  
+     | <%= link_to "Send friend request", "/friendships/?id=#{user.id}", method: 'create' %></li>
+  <% end %>
 <% end %>
 </ul>
