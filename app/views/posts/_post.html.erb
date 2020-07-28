@@ -5,6 +5,7 @@
   </span>
   <span class="post_body">
     <%= post.body %>
+    <%= image_tag post.image if post.image.attached? %>
   </span>
   <span class="timestamp">
     Posted <%= time_ago_in_words(post.created_at) %> ago.
