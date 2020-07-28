@@ -12,12 +12,25 @@
     <% if post.likes.find_by(user_id: current_user.id).blank? %>
       <%= link_to "like", likes_path(like: {likeable_type: "Post", likeable_id: post.id, user_id: current_user.id}), method: :create %>
     <% else %>
-      <% like_id = Like.find_by(user_id: current_user, likeable_id: post.id, likeable_id: post.id).id %>
+      <% like_id = Like.find_by(user_id: current_user, likeable_id: post.id, likeable_type: "Post").id %>
       <%= link_to "unlike", like_path(id: like_id, like: {likeable_type: "Post", likeable_id: post.id, user_id: current_user.id}), method: :delete %>
     <% end %>
     <% if current_user == post.author %>
       <%= link_to "delete", post, method: :delete,
                                        data: { confirm: "You sure?" } %>
+    <% end %>
+  </span>
+  <span class="comments">
+    <% post.comments.each do |comment| %>
+      Comment by: <%= User.find_by(id:comment.user_id).name %> posted <%= time_ago_in_words(post.created_at) %> ago.
+      <%= comment.body %>
+      <%= pluralize(comment.likes.count, 'like') %> 
+    <% if comment.likes.find_by(user_id: current_user.id).blank? %>
+      <%= link_to "like", likes_path(like: {likeable_type: "Comment", likeable_id: comment.id, user_id: current_user.id}), method: :create %>
+    <% else %>
+      <% like_id = Like.find_by(user_id: current_user, likeable_id: comment.id, likeable_type: "Post").id %>
+      <%= link_to "unlike", like_path(id: like_id, like: {likeable_type: "Comment", likeable_id: comment.id, user_id: current_user.id}), method: :delete %>
+    <% end %>
     <% end %>
   </span>
 </li>
