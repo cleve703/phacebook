@@ -62,4 +62,8 @@ class User < ApplicationRecord
     end
     return @friendship[0]
   end
+
+  def feed
+    Post.where("author_id IN (?)", (self.friends.ids.push(self.id)))
+  end
 end
