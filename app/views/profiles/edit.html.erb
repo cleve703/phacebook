@@ -1,0 +1,12 @@
+<%= form_with(model: @profile, url: [@user, @profile], local: true) do |f| %>
+  <%= label_tag(:home_town, "Hometown:") %>
+  <%= f.text_field :home_town %>
+  <%= label_tag(:college, "College:") %>
+  <%= f.text_field :college %>
+  <%= label_tag(:employer, "Employer:") %>
+  <%= f.text_field :employer %>
+  <%= f.submit "Save" %>
+  <span class="image">
+    <%= f.file_field :image, accept: "image/jpeg,image/gif,image/png" %>
+  </span>
+<% end %>

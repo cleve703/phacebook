@@ -11,3 +11,6 @@ Email: <%= @user.email %> <br>
   <% elsif !@user.friends.include?(current_user) && !current_user.friend_requests_sent.include?(@user) %>  
      <%= link_to "Send friend request", "/friendships/?id=#{@user.id}", method: 'create' %>
   <% end %>
+  <br>
+  <br>
+<%= render 'shared/profile' %>

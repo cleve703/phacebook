@@ -13,7 +13,9 @@ Rails.application.routes.draw do
     sessions: 'users/sessions'
   }
 
-  resources :users, only: [ :index, :show ]
+  resources :users, only: [ :index, :show ] do
+    resource :profile, only: [ :new, :create, :edit, :update, :show ]
+  end
   resources :friendships, only: [ :create, :destroy, :update ]
   resources :posts
   resources :likes, only: [ :create, :destroy ]

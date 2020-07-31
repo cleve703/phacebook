@@ -1,0 +1,8 @@
+<% if !@profile.blank? %>
+  <%= image_tag @profile.display_image if @profile.image.attached? %>
+  <ul>
+    <li>Hometown: <%= @profile.home_town %></li>
+    <li>Employer: <%= @profile.employer %></li>
+    <li>College: <%= @profile.college %></li>
+  </ul>
+<% end %>
