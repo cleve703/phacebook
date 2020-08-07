@@ -12,6 +12,11 @@ class User < ApplicationRecord
   has_many :frienders, through: :friend_requests_received
   has_many :posts, class_name: 'Post', foreign_key: 'author_id'
   has_one :profile
+  after_create :send_welcome_email
+
+  def send_welcome_email
+    UserMailer.welcome_email(self).deliver
+  end
   
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
