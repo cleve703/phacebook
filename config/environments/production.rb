@@ -112,8 +112,8 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
   config.action_mailer.smtp_settings = {
-    :user_name => ENV['SENDGRID_USERNAME'],
-    :password => ENV['SENDGRID_PASSWORD'],
+    :user_name => Rails.application.credentials.SENDGRID_USERNAME,
+    :password => Rails.application.credentials.SENDGRID_PASSWORD,
     :domain => 'arcane-fortress-15399.herokuapp.com',
     :address => 'smtp.sendgrid.net',
     :port => '587',
