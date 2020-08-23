@@ -112,14 +112,15 @@ Rails.application.configure do
   config.require_master_key = true
   config.read_encrypted_secrets = true
   config.action_mailer.delivery_method = :smtp
+  config.action_mailer.default_url_options = { host: "http://codingcop.com" }
   config.action_mailer.perform_deliveries = true
-  config.action_mailer.smtp_settings = {
-    :user_name => Rails.application.credentials.SENDGRID_USERNAME,
-    :password => Rails.application.credentials.SENDGRID_PASSWORD,
-    :domain => 'arcane-fortress-15399.herokuapp.com',
-    :address => 'smtp.sendgrid.net',
-    :port => '587',
-    :authentication => :plain,
-    :enable_starttls_auto => true
-  }
+  # config.action_mailer.smtp_settings = {
+  #   :user_name => Rails.application.credentials.SENDGRID_USERNAME,
+  #   :password => Rails.application.credentials.SENDGRID_PASSWORD,
+  #   :domain => 'arcane-fortress-15399.herokuapp.com',
+  #   :address => 'smtp.sendgrid.net',
+  #   :port => '587',
+  #   :authentication => :plain,
+  #   :enable_starttls_auto => true
+  # }
 end

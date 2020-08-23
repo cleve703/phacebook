@@ -5,6 +5,9 @@ class UserMailer < ApplicationMailer
   def welcome_email(user)
     @user = user
     @url  = 'codingcop.com'
+    if @user.email[-9..-1] == "email.com"
+      return
+    end
     from = SendGrid::Email.new(email: 'no-reply@codingcop.com')
     to = SendGrid::Email.new(email: @user.email)
     subject = 'Welcome to Phacebook'
